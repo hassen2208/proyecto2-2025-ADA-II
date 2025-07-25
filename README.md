@@ -33,7 +33,6 @@ Se utilizó el lenguaje de modelado **MiniZinc** y se creó una interfaz gráfic
 📦 Proyecto/
 ├── 📄 main.py                  # Interfaz gráfica de usuario (GUI)
 ├── 📄 Proyecto.mzn             # Modelo de optimización en MiniZinc
-├── 📄 Proyecto.ozn             # Opcional: formato personalizado de salida
 ├── 📂 BateriaPruebas/          # Archivos de entrada de prueba (.txt)
 │   ├── Prueba1.txt
 │   ├── Prueba2.txt

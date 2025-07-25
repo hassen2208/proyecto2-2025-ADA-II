@@ -28,19 +28,22 @@ Se utilizó el lenguaje de modelado **MiniZinc** y se creó una interfaz gráfic
 
 ## 📁 Estructura del Proyecto
 
-Proyecto/
-├── main.py # Interfaz gráfica (GUI)
-├── Proyecto.mzn # Modelo matemático de optimización (MiniZinc)
-├── Proyecto.ozn # Archivo de salida para formateo (opcional)
-├── BateriaPruebas/ # Archivos de entrada de prueba (.txt)
-│ ├── Prueba1.txt
-│ ├── Prueba2.txt
-│ └── ...
-├── DatosProyecto/ # Archivos generados en formato .dzn desde los .txt
-│ ├── Prueba1.dzn
-│ ├── Prueba2.dzn
-│ └── ...
-├── README.md 
+
+```
+📦 Proyecto/
+├── 📄 main.py                  # Interfaz gráfica de usuario (GUI)
+├── 📄 Proyecto.mzn             # Modelo de optimización en MiniZinc
+├── 📄 Proyecto.ozn             # Opcional: formato personalizado de salida
+├── 📂 BateriaPruebas/          # Archivos de entrada de prueba (.txt)
+│   ├── Prueba1.txt
+│   ├── Prueba2.txt
+│   └── ...
+├── 📂 DatosProyecto/           # Archivos .dzn generados desde los .txt
+│   ├── Prueba1.dzn
+│   ├── Prueba2.dzn
+│   └── ...
+└── 📄 README.md               
+``` 
 
 
 ## ✅ Requisitos

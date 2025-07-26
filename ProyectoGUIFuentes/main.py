@@ -5,13 +5,14 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import time
 import re
+from graficador import graficar_extremismo
 
 # Inicializar la app
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
 root = ctk.CTk()
-root.geometry("1000x600")
+root.geometry("1400x600")
 root.title("Reducción de Polarización - Grupo 11")
 
 entradas_disponibles = []
@@ -88,7 +89,10 @@ def dibujar_tabla(datos):
 def ejecutar_minimizacion():
     global contenido_dzn
     try:
-        resultado_area.delete("0.0", "end")  # Limpia resultados anteriores
+        resultado_area.delete("0.0", "end")  # Limpiar resultados anteriores
+        label_imagen.configure(image=None)
+        label_imagen.image = None
+
         modelo_path = ruta_relativa(__file__, "Proyecto.mzn")
         archivo_dzn_path = os.path.join(ruta_relativa(__file__, "DatosProyecto"), entrada_seleccionada.replace('.txt', '.dzn'))
         comando = f'minizinc --solver gecode --all-solutions "{modelo_path}" "{archivo_dzn_path}"'
@@ -102,10 +106,26 @@ def ejecutar_minimizacion():
             valores = re.findall(r"Extremismo total: ([0-9.,]+)", solucion)
             mensaje = ""
             if valores:
-                minimo = min([float(v.replace(",", ".")) for v in valores])
+                valores_float = [float(v.replace(",", ".")) for v in valores]
+                minimo = min(valores_float)
                 mensaje = f"\n✅ Valor mínimo de extremismo total encontrado: {minimo:.3f}\n"
+
+                # Graficar
+                img = graficar_extremismo(valores_float)
+                img = img.resize((500, 200))
+                img_tk = ImageTk.PhotoImage(img)
+                label_imagen.configure(image=img_tk)
+                label_imagen.image = img_tk
+
+                frame_entrada_y_resultado.grid_columnconfigure(0, weight=1)  # Parámetros
+                frame_entrada_y_resultado.grid_columnconfigure(1, weight=4)  # Resultados + gráfica
+
             else:
                 mensaje = "\n⚠️ No se encontró ningún valor de extremismo total.\n"
+
+                frame_entrada_y_resultado.grid_columnconfigure(0, weight=1)
+                frame_entrada_y_resultado.grid_columnconfigure(1, weight=2)
+
             titulo = "+" + "-"*130 + "+\n"
             titulo += f'|{" ":<40} Resultado de la minimización para "{entrada_seleccionada}" {" ":<43}|\n'
             titulo += "+" + "-"*130 + "+\n"
@@ -137,9 +157,11 @@ def seleccionar_entrada(entrada):
 
 def limpiar():
     resultado_area.delete("0.0", "end")
-    resultado_area.update()
+    parametros_area.delete("0.0", "end")
     opciones_pruebas.set("Seleccionar entrada")
     btn_ejecutar_minimizacion.configure(state="disabled")
+    label_imagen.configure(image=None)
+    label_imagen.image = None
 
 # --- Interfaz gráfica ---
 barra_superior = ctk.CTkFrame(root, height=105, corner_radius=0, fg_color="#5B9BD5")
@@ -149,7 +171,8 @@ titulo_label.place(relx=0.5, rely=0.5, anchor="center")
 
 frame_entrada_y_resultado = ctk.CTkFrame(root, fg_color="#F2F2F2")
 frame_entrada_y_resultado.grid(row=1, column=0, columnspan=3, rowspan=2, sticky="nsew", padx=10, pady=10)
-frame_entrada_y_resultado.grid_columnconfigure((0, 1), weight=1)
+frame_entrada_y_resultado.grid_columnconfigure(0, weight=1)  # Parámetros
+frame_entrada_y_resultado.grid_columnconfigure(1, weight=2)  # Resultados + gráfica
 frame_entrada_y_resultado.grid_rowconfigure(0, weight=1)
 
 frame_parametros = ctk.CTkFrame(frame_entrada_y_resultado, fg_color="#F2F2F2")
@@ -161,12 +184,19 @@ parametros_area = ctk.CTkTextbox(frame_parametros, font=("Roboto", 12), text_col
 parametros_area.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
 frame_resultado = ctk.CTkFrame(frame_entrada_y_resultado, fg_color="#A8D5BA")
+frame_resultado.grid_propagate(False)
 frame_resultado.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
-frame_resultado.grid_columnconfigure(0, weight=1)
+frame_resultado.grid_columnconfigure(0, weight=4)
+frame_resultado.grid_columnconfigure(1, weight=3)
 frame_resultado.grid_rowconfigure(1, weight=1)
-ctk.CTkLabel(frame_resultado, text="Resultado de la ejecución", font=("Roboto", 20), text_color="black").grid(row=0, column=0, pady=10)
-resultado_area = ctk.CTkTextbox(frame_resultado, font=("Roboto", 12), text_color="white")
+ctk.CTkLabel(frame_resultado, text="Resultado de la ejecución", font=("Roboto", 20), text_color="black").grid(row=0, column=0, columnspan=2, pady=10)
+
+resultado_area = ctk.CTkTextbox(frame_resultado, font=("Roboto", 12), text_color="white", wrap="word")
 resultado_area.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+
+label_imagen = ctk.CTkLabel(frame_resultado, text="")
+label_imagen.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
+
 
 frame_contenido = ctk.CTkFrame(root, fg_color="#F2F2F2")
 frame_contenido.grid(row=3, column=0, columnspan=3, sticky="nsew", padx=10, pady=10)

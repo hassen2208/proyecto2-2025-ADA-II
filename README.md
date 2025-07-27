@@ -32,18 +32,29 @@ Se utilizó el lenguaje de modelado **MiniZinc** y se creó una interfaz gráfic
 
 
 ```
-📦 Proyecto/
-├── 📄 main.py                  # Interfaz gráfica de usuario (GUI)
-├── 📄 Proyecto.mzn             # Modelo de optimización en MiniZinc
-├── 📂 BateriaPruebas/          # Archivos de entrada de prueba (.txt)
-│   ├── Prueba1.txt
-│   ├── Prueba2.txt
-│   └── ...
-├── 📂 DatosProyecto/           # Archivos .dzn generados desde los .txt
-│   ├── Prueba1.dzn
-│   ├── Prueba2.dzn
-│   └── ...
-└── 📄 README.md               
+├── 📁 BateriaPruebas
+│   └── Archivos .txt con pruebas genéricas para evaluar el modelo.
+│       Estas pruebas fueron suministradas como parte de la batería estándar.
+│
+├── 📁 DatosProyecto
+│   └── Archivos .dzn convertidos a partir de las pruebas .txt oficiales.
+│       Se usan como entrada del modelo en MiniZinc para pruebas reales.
+│
+├── 📁 MisInstancias
+│   └── Pruebas personalizadas en formato .dzn creadas por el equipo
+│       para validar situaciones específicas del modelo.
+│
+├── 📁 ProyectoGUIFuentes
+│   ├── main.py          → Código principal de la interfaz gráfica.
+│   └── graficador.py    → Funciones complementarias para visualización y manejo de resultados.
+│
+├── 📄 Proyecto.mzn
+│   → Archivo principal que contiene el modelo matemático implementado en MiniZinc.
+│     Incluye parámetros, variables, restricciones y la función objetivo para minimizar el extremismo.
+│
+└── 📄 README.md
+    → Este documento. Explica el propósito, funcionamiento y estructura del proyecto.
+             
 ``` 
 
 

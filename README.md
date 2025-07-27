@@ -48,6 +48,9 @@ Se utilizó el lenguaje de modelado **MiniZinc** y se creó una interfaz gráfic
 │   ├── main.py          → Código principal de la interfaz gráfica.
 │   └── graficador.py    → Funciones complementarias para visualización y manejo de resultados.
 │
+├── 📄 Informe_Proyecto_II_ADA_II_2025_Grupo_11.pdf
+│
+│
 ├── 📄 Proyecto.mzn
 │   → Archivo principal que contiene el modelo matemático implementado en MiniZinc.
 │     Incluye parámetros, variables, restricciones y la función objetivo para minimizar el extremismo.
